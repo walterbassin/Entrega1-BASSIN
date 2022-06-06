@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+    Buscar
+{% endblock %}
+
+{% block contenido %}
+<div class="d-flex" style="margin-top:3rem; margin-left:3rem;  margin-right:3rem"> 
+    {% for pizza in buscar_pizza %}
+
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card text-center">Pizza</h5>   
+        <h5 class="card-title">{{pizza.nombre}}</h5>
+          <p class="card-text">{{pizza.precio}}</p>
+      </div>
+  </div>
+  {% endfor %}
+  
+  {% for empanada in buscar_empanada %}
+
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card text-center">Empanada</h5>  
+        <h5 class="card-title">{{empanada.nombre}}</h5>
+          <p class="card-text">{{empanada.precio}}</p>
+      </div>
+  </div>
+  {% endfor %}
+ 
+  {% for bebida in buscar_bebida %}
+
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card text-center">Bebida</h5>  
+        <h5 class="card-title">{{bebida.nombre}}</h5>
+          <p class="card-text">{{bebida.precio}}</p>
+      </div>
+  </div>
+  {% endfor %}
+ 
+  {% for postre in buscar_postre %}
+
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card text-center">Postre</h5>  
+        <h5 class="card-title">{{postre.nombre}}</h5>
+          <p class="card-text">{{postre.precio}}</p>
+      </div>
+  </div>
+  {% endfor %}
+  
+  <div style="color:blue">
+    {{errors}}
+</div>
+
+</div>
+{% endblock %}
