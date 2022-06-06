@@ -2,7 +2,7 @@
 
 ## Descarga
     Desde una consola o el bash de git usar el siguiente comando
-        git clone https://github.com/walterbassin/pizzeria.git
+        git clone https://github.com/walterbassin/Entrega1-BASSIN.git
 
 
 ## Instalacion:
