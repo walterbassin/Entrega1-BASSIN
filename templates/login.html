@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block titulo%}
+Login
+{%endblock%}
+
+{% block contenido %}
+<div class="d-flex" style="margin-top:3rem; margin-left:3rem">
+    <form action="" method="POST" >
+        {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+        <input type="submit", value="Ingresar">
+    </form>
+</div>
+
+{% endblock %}

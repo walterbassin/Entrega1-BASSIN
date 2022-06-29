@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from pizza_web.views import pizza_view, empanada_view, bebida_view, postre_view, index_view, agregar_pizza_view, agregar_empanada_view, agregar_bebida_view, agregar_postre_view, buscar_view
+from pizza_web.views import pizza_view, empanada_view, bebida_view, postre_view, index_view, agregar_pizza_view, agregar_empanada_view, agregar_bebida_view, agregar_postre_view, buscar_view, login_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +28,7 @@ urlpatterns = [
     path('agregar_empanada/', agregar_empanada_view, name='agregar_empanada'),
     path('agregar_bebida/', agregar_bebida_view, name='agregar_bebida'),
     path('agregar_postre/', agregar_postre_view, name='agregar_postre'),
-    path('buscar/', buscar_view,  name = 'buscar')
+    path('buscar/', buscar_view,  name = 'buscar'),
+    path ('login/', login_view, name= 'login'),
     
 ]
