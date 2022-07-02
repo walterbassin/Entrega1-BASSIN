@@ -1,10 +1,11 @@
 from genericpath import exists
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import  AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 from pizza_web.models import pizza, empanada, bebida, postre
-from pizza_web.forms import pizza_form, empanada_form, bebida_form, postre_form
+from pizza_web.forms import pizza_form, empanada_form, bebida_form, postre_form, User_registration_form
 
 # Create your views here.
 
@@ -21,13 +22,46 @@ def login_view(request):
                 login(request, user)
                 context = {'message': f'Bienvenido {username}'}
                 return  render(request, 'index.html', context = context)
-
+            else:
+                context= {'error':"No hay ningún usuario con esas credenciales"}
+                form=AuthenticationForm()
+                return render(request, 'login.html', context=context)
+        else:
+            errors=form.errors
+            form=AuthenticationForm()
+            context={'errors': errors, 'form': form}
+            return render(request, 'login.html', context=context)  
 
     else:
         form = AuthenticationForm()
         context= {'form': form}
         return render(request, 'login.html', context=context)
 
+def register_view(request):
+    if request.method == 'POST':
+        form=User_registration_form(request.POST)
+        
+        if form.is_valid():
+            form.save()
+            username =form.cleaned_data['username']
+            password=form.cleaned_data['password1']
+            user = authenticate(username = username, password = password)
+            login(request, user)
+            context={ 'message': f'Usuario registrado correctamente, bienvenido {username}'}
+            return render (request, 'index.html', context = context)
+        else:
+            errors=form.errors
+            form=User_registration_form()
+            context={'errors': errors, 'form': form}
+            return render(request, 'register.html', context=context)
+    else:
+        form = User_registration_form()
+        context = {'form': form}
+        return render (request, 'register.html', context = context)
+
+def logout_view (request):
+    logout(request)
+    return redirect ('index')
 
 def pizza_view (request):
     pizzas= pizza.objects.all()
@@ -52,8 +86,9 @@ def postre_view (request):
 def index_view (request):
     context={}
     return render (request, 'index.html', context=context)
-    
+
 def agregar_pizza_view (request):
+  if request.user.is_authenticated and request.user.is_superuser:
     if request.method == 'GET':
         form = pizza_form()
         context = {'form':form}
@@ -72,7 +107,10 @@ def agregar_pizza_view (request):
         else:
             context = {'errors': form.errors}
         return render(request, 'agregar_pizza.html', context=context)
+  else:
+      return redirect('login')
 
+@login_required    
 def agregar_empanada_view (request):
     if request.method == 'GET':
         form = empanada_form()
@@ -92,6 +130,7 @@ def agregar_empanada_view (request):
             context = {'errors': form.errors}        
         return render(request, 'agregar_empanada.html', context=context)
 
+@login_required    
 def agregar_bebida_view (request):
     if request.method == 'GET':
         form = bebida_form()
@@ -110,6 +149,7 @@ def agregar_bebida_view (request):
             context = {'errors': form.errors}
         return render(request, 'agregar_bebida.html', context=context)
 
+@login_required    
 def agregar_postre_view (request):
     if request.method == 'GET':
         form = postre_form()
