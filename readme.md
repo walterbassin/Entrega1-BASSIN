@@ -1,11 +1,12 @@
 # Entrega del Proyecto Final - BASSIN, Walter Daniel 
 
 ## Descarga
-    Desde una consola o el bash de git usar el siguiente comando
+    Desde una consola o el bash de git usar el siguiente comando en una carpeta nueva:
         git clone https://github.com/walterbassin/EntregaFinal-BASSIN.git
-
+    
 
 ## Instalacion:
+    * Acceder a 'EntregaFinal-BASSIN.git'
     * pip install -r requirements.txt
     * python manage.py migrate
     * python manage.py runserver
