@@ -5,22 +5,32 @@ Pizzas
 {%endblock%}
 
 {% block contenido %}
-
-<div class="d-flex" style="margin-top:3rem; margin-left:3rem;  margin-right:3rem">
+<h5>{{message}}</h5>
+<div class="container"> 
+<div class="card-columns mt-3">
   {% for pizza in pizzas %}
-
-  <div class="card" style="width: 18rem;">
+  
+  <div class="card text-center" style="width: 20rem;">
       <div class="card-body">
-          <h5 class="card-title">{{pizza.nombre}}</h5>
-          <p class="card-text">{{pizza.ingredientes}}</p>
-          <p class="card-text">{{pizza.precio}}</p>
+          <h5 class="card text-center">{{pizza.nombre}}</h5>
+          {% if pizza.foto %}  
+          <img src="{{pizza.foto.url}}" class="card-img-top" >
+          {% endif %}  
+          <p class="card-text" style="margin-top:1rem;">{{pizza.ingredientes}}</p>
+          <p class="card-text">$ {{pizza.precio}}</p>
       </div>
+      <div class="card-bottom" style="margin-bottom: 1rem" >
+        <a href="/pizza_detail/{{pizza.id}}" style="background-color:floralwhite; border-color: black; color:black"   class="btn btn-primary">Ver más</a>
+    </div>
+
   </div>
 
   {% endfor %}
 </div>
-
-<div class="d-flex" style="margin-top:3rem; margin-left:3rem">
+{% if request.user.is_superuser %}
+<div class="d-flex" style="margin-top:2rem; margin-left:3rem; margin-bottom: 3rem;">
 <a href="/agregar_pizza/" class="btn btn-primary btn active" role="button" aria-disabled="true">Agregar Pizza</a>
 </div>
+</div>
+{% endif %}
 {% endblock %}

@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from pizza_web.views import pizza_view, empanada_view, bebida_view, postre_view, index_view, agregar_pizza_view, agregar_empanada_view, agregar_bebida_view, agregar_postre_view, buscar_view, login_view, logout_view, register_view
+from pizza_web.views import pizza_view, empanada_view, bebida_view, postre_view, index_view, agregar_pizza_view, agregar_empanada_view, agregar_bebida_view, agregar_postre_view, buscar_view, login_view, logout_view, register_view, pizza_detail_view, bebida_detail_view, empanada_detail_view, postre_detail_view, eliminar_pizza_view, eliminar_bebida_view, eliminar_empanada_view, eliminar_postre_view, update_pizza, update_empanada,  update_bebida, update_postre, editar_usuario
+from django.conf import settings
+from django.conf.urls.static import static
+
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +37,18 @@ urlpatterns = [
     path ('login/', login_view, name= 'login'),
     path ('logout/', logout_view, name= 'logout'),
     path ('register/', register_view, name= 'register'),
-]
+    path ('pizza_detail/<int:pk>/', pizza_detail_view, name = 'pizza_detail'),
+    path ('bebida_detail/<int:pk>/', bebida_detail_view, name = 'bebida_detail'),
+    path ('empanada_detail/<int:pk>/', empanada_detail_view, name = 'empanada_detail'),
+    path ('postre_detail/<int:pk>/', postre_detail_view, name = 'postre_detail'),
+    path ('eliminar_pizza/<int:pk>/', eliminar_pizza_view, name = 'eliminar_pizza'),
+    path ('eliminar_empanada/<int:pk>/', eliminar_empanada_view, name = 'eliminar_empanada'),
+    path ('eliminar_bebida/<int:pk>/', eliminar_bebida_view, name = 'eliminar_bebida'),
+    path ('eliminar_postre/<int:pk>/', eliminar_postre_view, name = 'eliminar_postre'),
+    path ('update_pizza/<int:pk>/', update_pizza.as_view(), name = 'update_pizza'),
+    path ('update_empanada/<int:pk>/', update_empanada.as_view(), name = 'update_empanada'),
+    path ('update_bebida/<int:pk>/', update_bebida.as_view(), name = 'update_bebida'),
+    path ('update_postre/<int:pk>/', update_postre.as_view(), name = 'update_postre'),
+    path ('update_user/', editar_usuario, name = 'update_user'),
+]  + static (settings.MEDIA_URL, document_root  = settings.MEDIA_ROOT)
+

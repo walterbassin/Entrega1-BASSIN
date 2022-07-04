@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block titulo%}
+Detalle de Pizza
+{%endblock%}
+
+{% block contenido %}
+<div class="container"> 
+<div class="card-columns mt-3">
+  
+  <div class="card text-center" style="width: 20rem; align-items: center;">
+    <div class="card-body" style="align-content: center">
+        <h5 class="card text-center">{{pizza_detalle.nombre}}</h5>
+        {% if pizza_detalle.foto %}  
+        <img src="{{pizza_detalle.foto.url}}" class="card-img-top" >
+        {% endif %}  
+        <p class="card-text" style="margin-top:1rem;">{{pizza_detalle.ingredientes}}</p>
+        <p class="card-text">$ {{pizza_detalle.precio}}</p>
+        {% if request.user.is_superuser %}
+        <div class="card-bottom" style="margin-bottom: 1rem;" >
+          <a href="/update_pizza/{{pizza_detalle.id}}" style="background-color:cornflowerblue; border-color: black; color:black"   class="btn btn-primary">Editar</a> 
+          <a href="/eliminar_pizza/{{pizza_detalle.id}}" style="background-color:firebrick; border-color: black; color:black"   class="btn btn-primary">Eliminar</a>
+        </div>
+        {% else %}
+        <div class="card-bottom" style="margin-bottom: 1rem;" >
+        <a href="#" style="background-color:khaki; border-color: black; color:black"   class="btn btn-primary">Comprar</a>
+        </div>
+        {% endif %}
+    </div>
+  </div>  
+
+</div>
+</div>
+
+
+
+{% endblock %}

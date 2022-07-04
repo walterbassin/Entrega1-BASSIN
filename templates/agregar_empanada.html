@@ -8,7 +8,7 @@ Agregar Empanada
 
 {% if form %}
 <div class="d-flex" style="margin-top:3rem; margin-left:3rem">
-    <form action="" method="POST" >
+    <form action="" method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
         <table>
             {{form.as_table}}
@@ -23,6 +23,9 @@ Agregar Empanada
 
    <div class="d-flex" style="margin-top:3rem; margin-left:3rem;  margin-right:3rem">  
     <div class="card" style="width: 18rem;">
+        {% if new_empanada.foto %}  
+        <img src="{{new_empanada.foto.url}}" class="card-img-top" >
+        {% endif %}  
         <div class="card-body">
             <h5 class="card-title">{{new_empanada.nombre}}</h5>
             <p class="card-text">{{new_empanada.ingredientes}}</p>

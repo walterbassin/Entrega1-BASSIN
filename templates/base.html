@@ -33,10 +33,29 @@
       <li class="nav-item" style="margin-right:32rem">
         <a class="nav-link active" href="/postres/">Postres</a>
       </li>
-      {% if request.user.is_authenticated %}
+      {% if request.user.is_authenticated and request.user.is_superuser %}
+      <li class="nav-item">
+        <img src='{{request.user.user_profile.image.url}}' style=height:2rem  href="/logout/">
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" style="color:darkorchid" href="/logout/">{{request.user.username}}</a>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link active" href="/logout/">Salir</a>
       </li>
+      {% elif request.user.is_authenticated  %}
+      <li class="nav-item">
+        <img src='{{request.user.image.url}}' style=height:2rem  href="/logout/">
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" style="color:darkgreen" href="/logout/">{{request.user.username}}</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link active" href="/logout/">Salir</a>
+      </li>
+
       {% else %}
       <li class="nav-item">
         <a class="nav-link active" href="/login/">Ingresar</a>

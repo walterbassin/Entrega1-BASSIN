@@ -5,54 +5,81 @@
 {% endblock %}
 
 {% block contenido %}
-<div class="d-flex" style="margin-top:3rem; margin-left:3rem;  margin-right:3rem"> 
+<div class="container"> 
+  <div class="card-columns mt-3">
     {% for pizza in buscar_pizza %}
 
-  <div class="card" style="width: 18rem;">
+  <div class="card text-center" style="width: 20rem;">
       <div class="card-body">
         <h5 class="card text-center">Pizza</h5>   
-        <h5 class="card-title">{{pizza.nombre}}</h5>
-          <p class="card-text">{{pizza.precio}}</p>
+        <h5 class="card text-center">{{pizza.nombre}}</h5>
+        {% if pizza.foto %}  
+          <img src="{{pizza.foto.url}}" class="card-img-top" >
+          {% endif %} 
       </div>
+      <div class="card-bottom" style="margin-bottom: 1rem;">
+        <a href="/pizza_detail/{{pizza.id}}" style="background-color:floralwhite; border-color: black; color:black"   class="btn btn-primary">Ver más</a>
+    </div>
   </div>
   {% endfor %}
   
   {% for empanada in buscar_empanada %}
 
-  <div class="card" style="width: 18rem;">
+  <div class="card text-center" style="width: 20rem;">
       <div class="card-body">
         <h5 class="card text-center">Empanada</h5>  
-        <h5 class="card-title">{{empanada.nombre}}</h5>
-          <p class="card-text">{{empanada.precio}}</p>
+        <h5 class="card text-center">{{empanada.nombre}}</h5>
+        {% if empanada.foto %}  
+        <img src="{{empanada.foto.url}}" class="card-img-top" >
+        {% endif %}
+      </div> 
+        <div class="card-bottom" style="margin-bottom: 1rem;" >
+          <a href="/empanada_detail/{{empanada.id}}" style="background-color:floralwhite; border-color: black; color:black"   class="btn btn-primary">Ver más</a>
+      
       </div>
   </div>
   {% endfor %}
  
   {% for bebida in buscar_bebida %}
 
-  <div class="card" style="width: 18rem;">
+  <div class="card text-center" style="width: 20rem;">
       <div class="card-body">
         <h5 class="card text-center">Bebida</h5>  
-        <h5 class="card-title">{{bebida.nombre}}</h5>
-          <p class="card-text">{{bebida.precio}}</p>
+        <h5 class="card text-center">{{bebida.nombre}}</h5>
+        {% if bebida.foto %}  
+        <img src="{{bebida.foto.url}}" class="card-img-top" >
+        {% endif %}
       </div>
+      <div class="card-bottom" style="margin-bottom: 1rem;" >
+        <a href="/bebida_detail/{{bebida.id}}" style="background-color:floralwhite; border-color: black; color:black"   class="btn btn-primary">Ver más</a>
+    
+    </div>
   </div>
   {% endfor %}
  
   {% for postre in buscar_postre %}
 
-  <div class="card" style="width: 18rem;">
+  <div class="card text-center" style="width: 20rem;">
       <div class="card-body">
         <h5 class="card text-center">Postre</h5>  
-        <h5 class="card-title">{{postre.nombre}}</h5>
-          <p class="card-text">{{postre.precio}}</p>
+        <h5 class="card text-center">{{postre.nombre}}</h5>
+        {% if postre.foto %}  
+        <img src="{{postre.foto.url}}" class="card-img-top" >
+        {% endif %}  
       </div>
+      <div class="card-bottom" style="margin-bottom: 1rem; " >
+        <a href="/postre_detail/{{postre.id}}" style="background-color:floralwhite; border-color: black; color:black"   class="btn btn-primary">Ver más</a>
+    
+    </div>
   </div>
   {% endfor %}
   
-  <div style="color:blue">
-    {{errors}}
+</div>
 </div>
 
-</div>
+<div style="margin-top:3rem; margin-left:3rem">
+  <div style="color:cadetblue">
+  <h4>{{errors}}</h4>
+  </div>
+
 {% endblock %}
