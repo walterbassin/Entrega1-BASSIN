@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block titulo%}
+Acerca de mí
+{%endblock%}
+
+{% block contenido %}
+
+      <div class="card-columns" style="margin-left:25rem; margin-top:5rem"> 
+        <div class="card text-center" style="width: 40rem;">
+          <div class="card-body" style="align-content: center">
+              <img src="{{portadas_about.image.url}}" class="card-img-top" >
+              <p class="card-text" style="margin-top:1rem;">{{portadas_about.description}}</p>
+              </div>
+            </div>  
+        </div>
+      </div>        
+  
+{%endblock%}
+
+    

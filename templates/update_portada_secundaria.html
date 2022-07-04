@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 
 {% block titulo%}
-Editar Usuario
+Editar Portada Secundaria
 {%endblock%}
 
 {% block contenido %}
-<h3>{{errors}}</h3>
-    <h4 style= 'margin-top:3rem;margin-left: 3rem'> Complete  los campos a editar:</h4>
+
 <div class="d-flex" style="margin-top:3rem; margin-left:3rem">
-    <form action="" method="POST" form enctype="multipart/form-data" >
+    <form method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
         <table>
             {{form.as_table}}
         </table>
-        <input type="submit", value="Guardar cambios">
+        <input type="submit", value="Editar">
     </form>
 </div>
+
+
+
+
 
 {% endblock %}

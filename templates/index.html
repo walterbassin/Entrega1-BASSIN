@@ -5,15 +5,49 @@ Pizzería
 {%endblock%}
 
 {% block contenido %}
-
-
-<div style="margin-top:3rem; margin-left:3rem">
-    <div style="color:cadetblue">
-    <h3>{{message}}</h3><br>
-    </div>
-
-    <h4> Estás en Pizza Web!</h4>
-</div>
-
-
 {% endblock %}
+
+{% block portada %}
+
+      <div class="card-columns" style="margin-left:5rem"> 
+        <div class="card text-center" style="width: 80rem;">
+          <div class="card-body" style="align-content: center">
+              <img src="{{portadas.image.url}}" class="card-img-top" >
+              <p class="card-text" style="margin-top:1rem;">{{portadas.description}}</p>
+              {% if request.user.is_superuser %}
+              <div class="card-bottom" style="margin-bottom: 1rem;" >
+                <a href="update_portada/1/" style="background-color:cornflowerblue; border-color: black; color:black"   class="btn btn-primary">Editar</a> 
+              {% endif %}
+              </div>
+            </div>  
+        </div>
+      </div>        
+  
+      {%endblock%}
+
+      {% block portada1 %}
+      <div class="card-columns" style="margin-left:5rem"> 
+        <div class="card text-center" style="width: 80rem;">
+          <div class="card-body" style="align-content: center">
+              <img src="{{portadas_secundarias.image.url}}" class="card-img-top" >
+              <p class="card-text" style="margin-top:1rem;">{{portadas_secundarias.description}}</p>
+              {% if request.user.is_superuser %}
+              <div class="card-bottom" style="margin-bottom: 1rem;" >
+                <a href="update_portada_secundaria/1/" style="background-color:cornflowerblue; border-color: black; color:black"   class="btn btn-primary">Editar</a> 
+              {% endif %}
+              </div>
+          </div>  
+        </div>  
+      </div>
+      {%endblock%}
+
+      {% block about %}
+      <div class="card-columns" style="margin-left:35rem; margin-top: 10rem"> 
+        <div class="card text-center" style="width: 20rem;">
+          <div class="card-bottom" style="margin-bottom: 3rem; margin-top:3rem" >
+            <a href="about/" style="background-color:lightblue; border-color: black; color:black"   class="btn btn-primary">Acerca de mí</a> 
+          </div>  
+        </div>  
+      </div>
+      {%endblock%}
+

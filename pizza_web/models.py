@@ -31,3 +31,15 @@ class postre (models.Model):
     apto_delivery=models.BooleanField()
     gluten_free=models.BooleanField()
     foto =  models.ImageField(upload_to= 'postres', blank=True, null=True)
+
+class portada (models.Model):
+    image=models.ImageField(upload_to='portadas', blank=False, null=False )
+    description = models.CharField(max_length= 200)
+
+class secundaria_portada (models.Model):
+    image=models.ImageField(upload_to='portadas', blank=False, null=False )
+    description = models.CharField(max_length= 200)
+
+class about_portada (models.Model):
+    image=models.ImageField(upload_to='about', blank=False, null=False )
+    description = models.CharField(max_length= 200)

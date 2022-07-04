@@ -1,14 +1,14 @@
 
-from genericpath import exists
+
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import  AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import  AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import UpdateView
 from django.urls import reverse
 
 # Create your views here.
-from pizza_web.models import pizza, empanada, bebida, postre
-from pizza_web.forms import pizza_form, empanada_form, bebida_form, postre_form, User_registration_form, User_edit_form
+from pizza_web.models import pizza, empanada, bebida, postre, portada, secundaria_portada, about_portada
+from pizza_web.forms import pizza_form, empanada_form, bebida_form, postre_form, User_registration_form, User_edit_form, portada_form, portada_about_form, portada_secundaria_form 
 
 
 # Create your views here.
@@ -18,19 +18,34 @@ def editar_usuario(request):
     if request.method == 'POST':
         form = User_edit_form (request.POST, request.FILES)
         if form.is_valid():
-                usuario.username =form.cleaned_data['username']
                 usuario.email=form.cleaned_data['email']
+                usuario.first_name=form.cleaned_data ['first_name']        
+                usuario.last_name=form.cleaned_data ['last_name']
+                usuario.description=form.cleaned_data ['description']
+                usuario.link=form.cleaned_data ['link']
+                usuario.password1=form.cleaned_data ['password1']
+                usuario.password2=form.cleaned_data ['password1']
+                usuario_validar = form.cleaned_data['image']
+                if usuario_validar is not None:
+                    usuario.image = form.cleaned_data ['image']     
                 usuario.save()
-                return render (request, 'index.html')
+                context = {'usuario': usuario}
+                return render (request, 'perfil_usuario.html', context = context)
+        else:
+            errors=form.errors
+            form=User_edit_form()
+            context={'errors': errors, 'form': form}
+            return render(request, 'update_user.html', context=context)
         
     else:
-        form = User_edit_form (initial={'username':usuario.username, 'email': usuario.email, 'image':usuario.image})
+        form = User_edit_form (initial={ 'first_name': usuario.first_name, 'last_name':usuario.last_name,'email': usuario.email, 'description': usuario.description, 'link': usuario.link})
         context={'form': form}
         return render(request, 'update_user.html', context=context)
 
-
-    
-
+def perfil_usuario_view (request):
+    usuario=request.user
+    context = {'usuario': usuario}
+    return render(request, 'perfil_usuario.html', context=context)
 
 class update_pizza(UpdateView):
     model= pizza
@@ -75,7 +90,10 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                context = {'message': f'Bienvenido {username}'}
+                portadas = portada.objects.get(id=1)
+                portadas_secundarias = secundaria_portada.objects.get(id=1)
+                portadas_about = about_portada.objects.get(id=1)
+                context={'portadas': portadas, 'portadas_secundarias': portadas_secundarias, 'portadas_about': portadas_about}
                 return  render(request, 'index.html', context = context)
             else:
                 context= {'error':"No hay ningún usuario con esas credenciales"}
@@ -102,7 +120,10 @@ def register_view(request):
             password=form.cleaned_data['password1']
             user = authenticate(username = username, password = password)
             login(request, user)
-            context={ 'message': f'Usuario registrado correctamente, bienvenido {username}'}
+            portadas = portada.objects.get(id=1)
+            portadas_secundarias = secundaria_portada.objects.get(id=1)
+            portadas_about = about_portada.objects.get(id=1)
+            context={'portadas': portadas, 'portadas_secundarias': portadas_secundarias, 'portadas_about': portadas_about}
             return render (request, 'index.html', context = context)
         else:
             errors=form.errors
@@ -118,10 +139,20 @@ def logout_view (request):
     logout(request)
     return redirect ('index')
 
+def elements_view(request):
+    pizzas= pizza.objects.all()
+    empanadas= empanada.objects.all()
+    bebidas= bebida.objects.all()
+    postres= postre.objects.all()
+    context ={'pizzas':pizzas, 'empanadas':empanadas, 'bebidas': bebidas, 'postres':postres}
+    return render (request, 'elements.html', context=context)
+
+
 def pizza_view (request):
     pizzas= pizza.objects.all()
     context={'pizzas': pizzas}
     return render (request, 'pizzas.html', context=context)
+
 
 def pizza_detail_view(request, pk):
     if request.user.is_authenticated:
@@ -212,8 +243,33 @@ def postre_detail_view (request, pk):
         return redirect ('login')
 
 def index_view (request):
-    context={}
+    portadas = portada.objects.get(id=1)
+    portadas_secundarias = secundaria_portada.objects.get(id=1)
+    portadas_about = about_portada.objects.get(id=1)
+    context={'portadas': portadas, 'portadas_secundarias': portadas_secundarias, 'portadas_about': portadas_about}
     return render (request, 'index.html', context=context)
+
+class update_portada_view(UpdateView):
+    model= portada
+    template_name = 'update_portada.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('index')
+
+class update_portada_secundaria__view(UpdateView):
+    model= secundaria_portada
+    template_name = 'update_portada_secundaria.html'
+    fields = '__all__'
+
+    def get_success_url(self):
+        return reverse('index')
+
+
+def about_view (request):
+    portadas_about = about_portada.objects.get(id=1)
+    context={'portadas_about': portadas_about}
+    return render (request, 'about.html', context=context)
 
 def agregar_pizza_view (request):
   if request.user.is_authenticated and request.user.is_superuser:
@@ -317,6 +373,18 @@ def buscar_view(request):
     
     if buscar_pizza.exists() or buscar_empanada.exists() or buscar_bebida.exists() or buscar_postre.exists():
         context = {'buscar_pizza':buscar_pizza, 'buscar_empanada': buscar_empanada, 'buscar_bebida': buscar_bebida, 'buscar_postre': buscar_postre}
+    elif producto_busqueda == 'pizza' or producto_busqueda=='pizzas':
+        buscar_pizza=pizza.objects.all()
+        context = {'buscar_pizza':buscar_pizza}
+    elif producto_busqueda == 'empanada' or producto_busqueda=='empanadas':
+        buscar_empanada=empanada.objects.all()
+        context = {'buscar_empanada':buscar_empanada}
+    elif producto_busqueda == 'bebida' or producto_busqueda=='bebidas':
+        buscar_bebida=bebida.objects.all()
+        context = {'buscar_bebida':buscar_bebida}
+    elif producto_busqueda == 'postre' or producto_busqueda=='postres':
+        buscar_postre=postre.objects.all()
+        context = {'buscar_postre':buscar_postre}
     else:
         context= {'errors': f"Disculpe, no encontramos un producto con el texto {producto_busqueda}."}
     return render(request, 'buscar.html', context = context)
